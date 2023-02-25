@@ -82,27 +82,25 @@ function checkArrayFullness(array: any[]) {
   }
 }
 
-function playGame() {
-  let currentPlayer = player1;
-  const UIBoard = gameBoard.DOMBoard;
+let currentPlayer = player1;
+const UIBoard = gameBoard.DOMBoard;
 
-  UIBoard.forEach((cell) => {
-    cell.addEventListener("mousedown", (e: Event) => {
-      currentPlayer.claimCell(e, currentPlayer.color);
-      gameBoard.board[Array.from(UIBoard).indexOf(cell)] = currentPlayer.color;
-      cell.removeEventListener("mousedown", onmousemove);
+function processGameData(e, cell: Element) {
+  currentPlayer.claimCell(e, currentPlayer.color);
+  gameBoard.board[Array.from(UIBoard).indexOf(cell)] = currentPlayer.color;
+  cell.removeEventListener("mousedown", processGameData);
 
-      if (findWinner(gameBoard.board)) {
-        alert(findWinner(gameBoard.board));
-      }
-      console.log(gameBoard.board);
-      if (currentPlayer === player1) {
-        currentPlayer = player2;
-      } else {
-        currentPlayer = player1;
-      }
-    });
-  });
+  if (findWinner(gameBoard.board)) {
+    alert(findWinner(gameBoard.board));
+  }
+  console.log(gameBoard.board);
+  if (currentPlayer === player1) {
+    currentPlayer = player2;
+  } else {
+    currentPlayer = player1;
+  }
 }
 
-playGame();
+UIBoard.forEach((cell) => {
+  cell.addEventListener("mousedown", (e: Event) => processGameData(e, cell));
+});
