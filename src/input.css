@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  .cell {
+    @apply bg-slate-600 rounded-lg hover:opacity-80 border-cyan-100 hover:border-2;
+  }
+}
